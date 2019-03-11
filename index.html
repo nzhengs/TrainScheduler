@@ -45,14 +45,14 @@
       </table>
       <!-- End of table -->
       <!-- form to input -->
-      <br>
+      <br />
       <form>
         <div class="form-group">
           <label for="formGroupExampleInput">Add Train</label>
           <input
             type="text"
             class="form-control"
-            id="trainName"
+            id="train-name"
             placeholder="Train Name"
           />
         </div>
@@ -70,7 +70,7 @@
           <input
             type="time"
             class="form-control"
-            id="firstTrainTime"
+            id="first-train-time"
             placeholder="Train Time (hh-mm)"
           />
         </div>
@@ -83,7 +83,9 @@
             placeholder="Frequency in min"
           />
         </div>
-        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        <button type="submit" class="btn btn-primary" id="add-train">
+          Submit
+        </button>
       </form>
     </div>
     <!-- container -->
@@ -91,8 +93,8 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"
     ></script>
     <script
@@ -105,6 +107,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="javascript/javascript.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+    <script src="javascript/app.js"></script>
   </body>
 </html>
