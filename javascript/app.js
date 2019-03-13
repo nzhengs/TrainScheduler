@@ -11,31 +11,69 @@ $(document).ready(function() {
 
   firebase.initializeApp(config);
   var database = firebase.database();
-  var trainName;
-  var destination;
-  var firstTrainTime;
-  var frequency;
+
   var nextArrival;
   var minurteAway;
 
+  database
+    .ref()
+    .orderByChild("dateAdded")
+    .on("child_added", function(childSnapshot) {
+      const trainSchedule = getTrainSchedule(childSnapshot.val());
+      addRow(trainSchedule);
+    });
+
+  function getTrainSchedule(firebaseData) {
+    const trainSchedule = {
+      trainName: firebaseData.trainName,
+      destination: firebaseData.destination,
+      firstTrainTime: firebaseData.firstTrainTime,
+      frequency: firebaseData.frequency
+    };
+
+    return trainSchedule;
+  }
+
+  function addRow(trainSchedule) {
+    var row = $("<tr>");
+    var trainNameCol = $("<td>");
+    var destinationCol = $("<td>");
+    var frequencyCol = $("<td>");
+    var nextArrivalCol = $("<td>");
+    var minuteAwayCol = $("<td>");
+
+    trainNameCol.text(trainSchedule.trainName);
+    destinationCol.text(trainSchedule.destination);
+    frequencyCol.text(trainSchedule.frequency);
+
+    row.append(trainNameCol);
+    row.append(destinationCol);
+    row.append(frequencyCol);
+    row.append(nextArrivalCol);
+    row.append(minuteAwayCol);
+
+    $("#trainSchedule tbody").append(row);
+  }
   $("#add-train").click(function(event) {
     event.preventDefault();
 
-    trainName = $("#train-name").val();
-    destination = $("#destination").val();
-    firstTrainTime = $("#first-train-time").val();
-    frequency = $("#frequency").val();
+    var trainName = $("#train-name").val();
+    var destination = $("#destination").val();
+    var firstTrainTime = $("#first-train-time").val();
+    var frequency = $("#frequency").val();
     console.log(trainName);
     console.log(destination);
     console.log(firstTrainTime);
     console.log(frequency);
 
-    // database.ref().push({
-    //   Name: employeeName,
-    //   Role: role,
-    //   StartDate: startDate,
-    //   MonthlyRate: monthlyRate,
-    //   dateAdded: firebase.database.ServerValue.TIMESTAMP
-    // });
+    var trainSchedule = {
+      trainName: trainName,
+      destination: destination,
+      firstTrainTime: firstTrainTime,
+      frequency: frequency,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    database.ref().push(trainSchedule);
   });
 });
