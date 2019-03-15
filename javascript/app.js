@@ -12,9 +12,6 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
 
-  var nextArrival;
-  var minurteAway;
-
   database
     .ref()
     .orderByChild("dateAdded")
@@ -41,19 +38,34 @@ $(document).ready(function() {
     var frequencyCol = $("<td>");
     var nextArrivalCol = $("<td>");
     var minuteAwayCol = $("<td>");
+    const tMinutesTillTrain = calculateMinutesAway(trainSchedule);
+
+    const nextTrain = calculateTimeForTrain(tMinutesTillTrain);
 
     trainNameCol.text(trainSchedule.trainName);
     destinationCol.text(trainSchedule.destination);
     frequencyCol.text(trainSchedule.frequency);
+    nextArrivalCol.text(nextTrain.format("HH:mm"));
+    minuteAwayCol.text(tMinutesTillTrain);
 
-    row.append(trainNameCol);
-    row.append(destinationCol);
-    row.append(frequencyCol);
-    row.append(nextArrivalCol);
-    row.append(minuteAwayCol);
+    row.append(
+      trainNameCol,
+      destinationCol,
+      frequencyCol,
+      nextArrivalCol,
+      minuteAwayCol
+    );
 
     $("#trainSchedule tbody").append(row);
   }
+
+  function calculateTimeForTrain(tMinutesTillTrain) {
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    return nextTrain;
+  }
+
   $("#add-train").click(function(event) {
     event.preventDefault();
 
@@ -76,4 +88,16 @@ $(document).ready(function() {
 
     database.ref().push(trainSchedule);
   });
+
+  function calculateMinutesAway(trainSchedule) {
+    var firstTrainTime = trainSchedule.firstTrainTime;
+    var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(
+      1,
+      "years"
+    );
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    var tRemainder = diffTime % trainSchedule.frequency;
+    var tMinutesTillTrain = trainSchedule.frequency - tRemainder;
+    return tMinutesTillTrain;
+  }
 });

@@ -17,21 +17,21 @@
     />
 
     <title>Train Schedule</title>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">
+      
+        <span class="heading">
           <h1>Anytime is Train Time</h1>
-          <br />
           <h4>Choo Choo, Chee Chee</h4>
         </span>
-      </nav>
+      
       <!-- Table Body -->
       <table class="table" id="trainSchedule">
         <thead>
-          <tr>
-            <td>Current Train Schedule</td>
+          <tr id= "title">
+            <td >Current Train Schedule</td>
           </tr>
           <tr>
             <th scope="col">Train Name</th>
@@ -46,7 +46,7 @@
       <!-- End of table -->
       <!-- form to input -->
       <br />
-      <form>
+      <form class="input">
         <div class="form-group">
           <label for="formGroupExampleInput">Add Train</label>
           <input
